@@ -72,4 +72,38 @@ public class Lista {
             i++;
         }
     }
+
+    public void selecaoDireta(){
+        No posMenor, aux;
+        int menor;
+
+        for(No ini = inicio; ini !=null; ini=ini.getProx()){
+            menor = ini.getInfo();
+            posMenor = ini;
+
+            for(aux=ini.getProx(); aux!=null; aux=aux.getProx()){
+                if(aux.getInfo()<menor){
+                    menor = aux.getInfo();
+                    posMenor = aux;
+                }
+            }
+
+            posMenor.setInfo(ini.getInfo());
+            ini.setInfo(menor);
+        }
+
+    }
+
+    public void bolha(){
+        No tl;
+        No ini = inicio;
+        int aux;
+        for(tl=fim; ini!=fim; tl = tl.getAnt()){
+            for(ini = inicio;ini.getInfo() > ini.getProx().getInfo(); ini=ini.getProx()){
+                aux = ini.getInfo();
+                ini.setInfo(ini.getProx().getInfo());
+                ini.getProx().setInfo(aux);
+            }
+        }
+    }
 }

@@ -168,6 +168,51 @@ public class Arquivo {
         }
 
     }
+    public void SelecaoDireta(){
+        int tl = filesize(), menor,aux, posMenor;
+        Registro reg1 = new Registro();
+        Registro reg2 = new Registro();
+
+        for(int i=0; i<tl; i++){
+            seekArq(i);
+            reg1.leDoArq(arquivo);
+            menor = reg1.getCodigo();
+            posMenor = i;
+            for(aux=i+1; aux<tl;aux++){
+                seekArq(aux);
+                reg2.leDoArq(arquivo);
+                if(reg2.getCodigo()<menor){
+                    menor = reg2.getCodigo();
+                    posMenor = aux;
+                }
+            }
+            seekArq(posMenor);
+            reg2.leDoArq(arquivo);
+            seekArq(i);
+            reg2.gravaNoArq(arquivo);
+            seekArq(posMenor);
+            reg1.gravaNoArq(arquivo);
+        }
+    }
+    public void bolha(){
+        int tl;
+        int ini=0;
+        Registro reg1 = new Registro();
+        Registro reg2 = new Registro();
+
+        for(tl= filesize(); ini<tl; tl--){
+            for(ini=0;ini<tl; ini++){
+                seekArq(ini);
+                reg1.leDoArq(arquivo);
+                reg2.leDoArq(arquivo);
+                if(reg1.getCodigo()>reg2.getCodigo()){
+                     seekArq(ini);
+                     reg2.gravaNoArq(arquivo);
+                     reg1.gravaNoArq(arquivo);
+                }
+            }
+        }
+    }
     public void bubble_sort()
     {
         Registro reg1 = new Registro();
