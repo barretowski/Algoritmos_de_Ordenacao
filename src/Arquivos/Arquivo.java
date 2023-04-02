@@ -105,7 +105,69 @@ public class Arquivo {
         exibirArq();
     }
 
+    //------------------------------------ Algoritmos ----------------------------------------------
+    public void  insercaoDireta(){
+        Registro reg1 = new Registro();
+        Registro reg2 = new Registro();
+        int tl = filesize(), i,pos;
+        for(i=1; i<tl; i++){
+            seekArq(i-1);
+            reg2.leDoArq(arquivo);
+            reg1.leDoArq(arquivo);
+            for(pos=i-1;pos<=0 && reg1.getCodigo()<reg2.getCodigo(); pos--){
+                seekArq(pos+1);
+                reg2.gravaNoArq(arquivo);
 
+                seekArq(pos-1);
+                reg2.leDoArq(arquivo);
+            }
+            seekArq(pos+1);
+            reg1.gravaNoArq(arquivo);
+        }
+    }
+    public int buscaBinaria(int chave, int fim){
+        int ini=0; int meio=(ini+fim)/2;
+        Registro reg = new Registro();
+        seekArq(meio);
+        reg.leDoArq(arquivo);
+
+        while(ini<fim && reg.getCodigo()!=chave){
+            if(chave<reg.getCodigo())
+                fim = meio-1;
+            else
+                ini = meio+1;
+
+            meio = (ini+fim)/2;
+            seekArq(meio);
+            reg.leDoArq(arquivo);
+        }
+        if(chave>reg.getCodigo())
+            return meio+1;
+
+        return meio;
+    }
+    public void insercaoBinaria(){
+        Registro regIni = new Registro();
+        Registro reg1 = new Registro();
+        Registro reg2 = new Registro();
+        int tl = filesize();
+        int pos, posAux;
+
+        for(int i=1; i<tl; i++){
+            seekArq(i);
+            regIni.leDoArq(arquivo);
+
+            pos = buscaBinaria(regIni.getCodigo(),i);
+            for(posAux=i; posAux!=pos; posAux--){
+                seekArq(posAux-1);
+                reg1.leDoArq(arquivo);
+                reg1.gravaNoArq(arquivo);
+            }
+            seekArq(pos);
+            regIni.gravaNoArq(arquivo);
+        }
+
+    }
     public void bubble_sort()
     {
         Registro reg1 = new Registro();
