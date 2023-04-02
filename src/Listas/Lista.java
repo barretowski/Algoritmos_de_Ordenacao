@@ -20,12 +20,23 @@ public class Lista {
         return fim;
     }
     //---------------------------------------- Buscas -----------------------------------------------
+    //retorna o endereco do No a partir de uma posicao numerica informada
     public No localizaNo(int pos){
         No ini = inicio;
         for(int i=0; ini!=null && pos>i; i++){
             ini = ini.getProx();
         }
         return ini;
+    }
+    //retorna a posição numerica de um determinado No
+    public int localizaPosNumerico(No pos){
+        No i = inicio;
+        int cont = 0;
+        while(i.getInfo()!=pos.getInfo()){
+          cont++;
+          i = i.getProx();
+        }
+        return cont;
     }
     public No buscaBinaria(int info, int fim){
         int ini=0;
@@ -104,6 +115,42 @@ public class Lista {
                 ini.setInfo(ini.getProx().getInfo());
                 ini.getProx().setInfo(aux);
             }
+        }
+    }
+
+    public void shell(){
+        int pai, aux;
+        No noPai, FE, FD, maiorF;
+        int tl = localizaPosNumerico(fim);
+        No end = fim;
+        while(tl>1 && end!=null){
+            pai = tl/2-1;
+            noPai = localizaNo(pai);
+            while (pai >=0 && noPai!=null){
+                FE = localizaNo(pai*2+1);
+                FD = null;
+                if(FE.getProx()!=null)
+                    FD = FE.getProx();
+
+                if(FD!=null && FD.getInfo()>FE.getInfo())
+                    maiorF = FD;
+                else
+                    maiorF = FE;
+
+                if(maiorF.getInfo()> noPai.getInfo()){
+                    aux = noPai.getInfo();
+                    noPai.setInfo(maiorF.getInfo());
+                    maiorF.setInfo(aux);
+                }
+
+                pai--;
+                noPai = noPai.getAnt();
+            }
+            aux = inicio.getInfo();
+            inicio.setInfo(end.getInfo());
+            end.setInfo(aux);
+            tl--;
+            end = end.getAnt();
         }
     }
 }

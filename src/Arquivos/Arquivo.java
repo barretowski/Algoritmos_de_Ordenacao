@@ -201,7 +201,7 @@ public class Arquivo {
         Registro reg2 = new Registro();
 
         for(tl= filesize(); ini<tl; tl--){
-            for(ini=0;ini<tl; ini++){
+            for(ini=0;ini<tl-1; ini++){
                 seekArq(ini);
                 reg1.leDoArq(arquivo);
                 reg2.leDoArq(arquivo);
@@ -213,7 +213,58 @@ public class Arquivo {
             }
         }
     }
-    public void bubble_sort()
+
+    public void heap(){
+        int posPai, pai,FE, FD, posMaior;
+        Registro regPai = new Registro();
+        Registro regFe= new Registro();
+        Registro regFd= new Registro();
+        Registro regFim = new Registro();
+        Registro regInicio = new Registro();
+        Registro maiorF;
+        int tl;
+
+        for(tl=filesize(); tl>1; tl--){
+
+            for(posPai = tl/2-1; posPai>=0; posPai--){
+                seekArq(posPai);
+                regPai.leDoArq(arquivo);
+                seekArq(posPai*2+1);
+                regFe.leDoArq(arquivo);
+                regFd.leDoArq(arquivo);
+
+                if(regFd!=null && regFd.getCodigo()>regFe.getCodigo()){
+                    posMaior = posPai*2+1;
+                    maiorF = regFd;
+                }
+                else {
+                    posMaior = posPai*2+1;
+                    maiorF = regFe;
+                }
+
+
+                if(maiorF.getCodigo()>regPai.getCodigo()){
+                    seekArq(posMaior);
+                    regPai.gravaNoArq(arquivo);
+                    seekArq(posPai);
+                    maiorF.gravaNoArq(arquivo);
+                }
+            }
+            seekArq(tl);
+            regFim.leDoArq(arquivo);
+            seekArq(0);
+            regInicio.leDoArq(arquivo);
+
+            seekArq(tl);
+            regInicio.gravaNoArq(arquivo);
+            seekArq(0);
+            regFim.gravaNoArq(arquivo);
+
+        }
+    }
+
+
+    /*public void bubble_sort()
     {
         Registro reg1 = new Registro();
         Registro reg2 = new Registro();
@@ -237,5 +288,5 @@ public class Arquivo {
             TL--;
         }
 
-    }
+    }*/
 }
